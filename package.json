@@ -13,6 +13,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "simple-peer": "^9.9.3",
     "socket.io": "^4.0.0",
     "uuid": "^8.3.2",
     "ws": "^7.4.4"

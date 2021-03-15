@@ -48,7 +48,7 @@ function move(e) {
             color: color
         });
 
-        broadcast(JSON.stringify({
+        peerBroadcast(JSON.stringify({
             lastPoint,
             x: e.offsetX,
             y: e.offsetY,
