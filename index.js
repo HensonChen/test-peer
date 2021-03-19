@@ -29,17 +29,19 @@ io.use((socket, next) => {
     socket.join(roomId);
     if (!roomUsers[roomId]) roomUsers[roomId] = {};
     if (!roomUsers[roomId][socket.id]) roomUsers[roomId][socket.id] = socket.id;
+    
     console.log(roomUsers);
-    socket.emit('selfId', socket.id);
+    
+    socket.emit('init', { selfId: socket.id, allUserIds: Object.values(roomUsers[roomId]) });
     // update all users
-    io.to(roomId).emit('allUserIds', Object.values(roomUsers[roomId]));
+    socket.to(roomId).emit('allUserIds', Object.values(roomUsers[roomId]));
 
     socket.on('notifyPeers', (data) => {
-        io.to(data.to).emit('hello', {signalData: data.signalData, initiatorId: data.from});
+        socket.to(data.to).emit('hello', { signalData: data.signalData, initiatorId: data.from });
     });
 
     socket.on('acceptConn', (data) => {
-        io.to(data.to).emit('accepted', data.signalData);
+        socket.to(data.to).emit('accepted', { targetId: socket.id, signalData: data.signalData });
     });
 
     socket.on('disconnect', () => {
